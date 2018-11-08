@@ -9,13 +9,6 @@ typedef struct {
 } Matrix;
 
 
-/**
- * Initialize matrix structure
- * @param matrix - Pointer to matrix
- * @param rows - Number of rows
- * @param cols - Number of cols
- * @return 1 with success, 0 with error
- */
 int Matrix_new(Matrix* matrix, size_t rows, size_t cols) {
     if (matrix == NULL) {
         return 0;
@@ -47,6 +40,34 @@ void Matrix_transpose(const Matrix* restrict src, const Matrix* restrict dst) {
     }
 }
 
+#define I_BLOCK_SIZE 32
+#define J_BLOCK_SIZE 32
+void Matrix_transpose_rec(const Matrix* restrict src, const Matrix* restrict dst,
+                          size_t i_shift, size_t j_shift, size_t rows, size_t cols) {
+    if (rows > I_BLOCK_SIZE) {
+        const size_t half_rows = rows / 2;
+        Matrix_transpose_rec(src, dst, i_shift, j_shift, half_rows, cols);
+        Matrix_transpose_rec(src, dst, i_shift + half_rows, j_shift, rows - half_rows, cols);
+    } else if (cols > J_BLOCK_SIZE) {
+        const size_t half_cols = cols / 2;
+        Matrix_transpose_rec(src, dst, i_shift, j_shift, rows, half_cols);
+        Matrix_transpose_rec(src, dst, i_shift, j_shift + half_cols, rows, cols - half_cols);
+    } else {
+
+        for (int i = i_shift; i < i_shift + rows; i++) {
+            for (int j = j_shift; j < j_shift + cols; j++) {
+                dst->ptr[j * dst->cols + i] = src->ptr[i * src->cols + j];
+            }
+        }
+
+    }
+}
+
+inline
+void Matrix_transpose_fast(const Matrix* restrict src, const Matrix* restrict dst) {
+    Matrix_transpose_rec(src, dst, 0, 0, src->rows, src->cols);
+}
+
 void Matrix_init(Matrix* const mat) {
     srand(time(NULL));
     for (int i = 0; i < mat->rows; i++) {
@@ -73,12 +94,11 @@ int main(int argc, char** argv) {
     Matrix matrix2;
     int err = Matrix_new(&matrix1, n_rows, n_cols);
     if (err == 0) {
-        fprintf(stderr, "Memory error \n");
+        perror("Matrix_new: ");
         return 1;
     }
     Matrix_new(&matrix2, n_cols, n_rows);
     Matrix_init(&matrix1);
 
-
-    Matrix_transpose(&matrix1, &matrix2);
+    Matrix_transpose_fast(&matrix1, &matrix2);
 }
