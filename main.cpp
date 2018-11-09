@@ -31,19 +31,4 @@ int main(int argc, char** argv) {
     transpose(matrix1, matrix2);
     const double end_time = omp_get_wtime();
 
-    // Print results
-    std::cout << end_time - start_time << std::endl;
-    for (int i = 0; i < matrix1.rows(); i++) {
-        for (int j = 0; j < matrix1.cols(); j++) {
-            std::cout << (int)matrix1(i, j) << ' ';
-        }
-        std::cout << '\n';
-    }
-    std::cout << '\n';
-    for (int i = 0; i < matrix2.rows(); i++) {
-        for (int j = 0; j < matrix2.cols(); j++) {
-            std::cout << (int)matrix2(i, j) << ' ';
-        }
-        std::cout << '\n';
-    }
 }
