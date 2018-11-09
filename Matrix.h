@@ -35,4 +35,17 @@ public:
         return _cols;
     }
 
+
+    /// Perform matrix out-place transpose regular way<br>
+    /// \param src - source matrix
+    /// \param dst - destination matrix
+    friend
+    void transpose(const Matrix<T>& src, Matrix<T>& dst) {
+        for (int j = 0; j < src.cols(); j++) {
+            for (int i = 0; i < src.rows(); i++) {
+                dst(j, i) = src(i, j);
+            }
+        }
+    }
+
 };
