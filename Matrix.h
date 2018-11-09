@@ -42,7 +42,7 @@ public:
     }
 
 
-    /// Perform matrix out-place transpose regular way<br>
+    /// Perform matrix out-place transpose regular way
     /// \param src - source matrix
     /// \param dst - destination matrix
     friend
@@ -65,6 +65,17 @@ public:
     }
 };
 
+/// Implementation of recursive transposition<br>
+/// Performs transposition of sub-matrix
+/// \tparam T - matrix inner type
+/// \tparam BLOCK_ROWS - maximum rows in block
+/// \tparam BLOCK_COLS - maximum columns in block
+/// \param src - source matrix
+/// \param dst - destination matrix
+/// \param i_shift - first row for sub-matrix
+/// \param j_shift - first column for sub-matrix
+/// \param rows - rows in sub-matrix
+/// \param cols - columns in sub-matrix
 template <typename T, size_t BLOCK_ROWS, size_t BLOCK_COLS>
 void _transpose_recursive(const Matrix<T>& src, Matrix<T>& dst,
                           const size_t i_shift, const size_t j_shift,
@@ -96,6 +107,13 @@ void _transpose_recursive(const Matrix<T>& src, Matrix<T>& dst,
     }
 }
 
+/// Perform matrix out-place transpose recursive way<br>
+/// More cache-friendly compared to regular
+/// \tparam T - matrix inner type
+/// \tparam BLOCK_ROWS - maximum rows in block
+/// \tparam BLOCK_COLS - maximum columns in block
+/// \param src - source matrix
+/// \param dst - destination matrix
 template <typename T, size_t BLOCK_ROWS = 16, size_t BLOCK_COLS = 16> inline
 void transpose_recursive(const Matrix<T>& src, Matrix<T>& dst) {
     _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst, 0, 0, src.rows(), src.cols());
