@@ -54,6 +54,15 @@ public:
         }
     }
 
+    friend
+    bool operator==(const Matrix& mat1, const Matrix& mat2) {
+        for (size_t i = 0; i < mat1.rows(); i++) {
+            for (size_t j = 0; j < mat1.cols(); j++) {
+                if (mat1(i, j) != mat2(i, j)) return false;
+            }
+        }
+        return true;
+    }
 };
 
 template <typename T, size_t BLOCK_ROWS, size_t BLOCK_COLS>
