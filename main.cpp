@@ -23,12 +23,15 @@ int main(int argc, char** argv) {
     }
 
     // Init matrices
-    Matrix<char> matrix1(rows, cols);
-    Matrix<char> matrix2(cols, rows); //NOLINT
+    Matrix<char> mat1(rows, cols);
+    Matrix<char> mat2(cols, rows); //NOLINT
 
-    // Transpose
-    const double start_time = omp_get_wtime();
-    transpose(matrix1, matrix2);
-    const double end_time = omp_get_wtime();
+    double start_time;
+    double end_time;
 
+    // Transpose block
+    start_time = omp_get_wtime();
+    transpose_recursive<char>(mat1, mat2);
+    end_time = omp_get_wtime();
+    std::cout << end_time - start_time << std::endl;
 }
