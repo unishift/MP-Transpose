@@ -3,6 +3,13 @@
 
 #include "Matrix.h"
 
+/// Performs transposition method from linked library on char matrix<br>
+/// Returns time with respect to multi-threading
+/// \param src - source matrix
+/// \param dst - destination matrix
+/// \return elapsed time in seconds
+double transpose_test(const Matrix<char>& src, Matrix<char>& dst);
+
 int main(int argc, char** argv) {
     // Turn off sync with stdio for performance reasons
     std::ios::sync_with_stdio(false);
@@ -30,8 +37,6 @@ int main(int argc, char** argv) {
     double end_time;
 
     // Transpose block
-    start_time = omp_get_wtime();
-    transpose_recursive<char>(mat1, mat2);
-    end_time = omp_get_wtime();
-    std::cout << end_time - start_time << std::endl;
+    const double elapsed_time = transpose_test(mat1, mat2);
+    std::cout << elapsed_time << std::endl;
 }
