@@ -25,12 +25,32 @@ void _transpose_recursive(const Matrix<T>& src, Matrix<T>& dst,
 
         if (rows > cols) {
             const size_t half_rows = rows / 2;
-            _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst, i_shift, j_shift, half_rows, cols);
-            _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst, i_shift + half_rows, j_shift, rows - half_rows, cols);
+            #pragma omp task shared(src, dst)
+            {
+                _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst,
+                                                                i_shift, j_shift,
+                                                                half_rows, cols);
+            }
+            #pragma omp task shared(src, dst)
+            {
+                _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst,
+                                                                i_shift + half_rows, j_shift,
+                                                                rows - half_rows, cols);
+            }
         } else {
             const size_t half_cols = cols / 2;
-            _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst, i_shift, j_shift, rows, half_cols);
-            _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst, i_shift, j_shift + half_cols, rows, cols - half_cols);
+            #pragma omp task shared(src, dst)
+            {
+                _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst,
+                                                                i_shift, j_shift,
+                                                                rows, half_cols);
+            }
+            #pragma omp task shared(src, dst)
+            {
+                _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst,
+                                                                i_shift, j_shift + half_cols,
+                                                                rows, cols - half_cols);
+            }
         }
 
     } else {
@@ -54,6 +74,8 @@ void _transpose_recursive(const Matrix<T>& src, Matrix<T>& dst,
 /// \param dst - destination matrix
 template <typename T, size_t BLOCK_ROWS = 16, size_t BLOCK_COLS = 16> inline
 void transpose_openmp(const Matrix<T>& src, Matrix<T>& dst) {
+    #pragma omp parallel
+    #pragma omp single
     _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst, 0, 0, src.rows(), src.cols());
 }
 
