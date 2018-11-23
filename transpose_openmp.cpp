@@ -77,6 +77,7 @@ void transpose_openmp(const Matrix<T>& src, Matrix<T>& dst) {
     #pragma omp parallel
     #pragma omp single
     _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst, 0, 0, src.rows(), src.cols());
+    #pragma omp taskwait
 }
 
 double transpose_test(const Matrix<char>& src, Matrix<char>& dst) {
