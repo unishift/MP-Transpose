@@ -56,7 +56,7 @@ void transpose_mpi(const Matrix<T>& src, Matrix<T>& dst) {
     _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst, 0, 0, src.rows(), src.cols());
 }
 
-double transpose_test(const Matrix<char>& src, Matrix<char>& dst) {
+double transpose_test(const Matrix<char>& src, Matrix<char>& dst, size_t num_threads) {
     const double start_time = MPI_Wtime();
     transpose_mpi<char>(src, dst);
     const double end_time = MPI_Wtime();

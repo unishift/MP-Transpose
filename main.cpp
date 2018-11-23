@@ -8,15 +8,15 @@
 /// \param src - source matrix
 /// \param dst - destination matrix
 /// \return elapsed time in seconds
-double transpose_test(const Matrix<char>& src, Matrix<char>& dst);
+double transpose_test(const Matrix<char>& src, Matrix<char>& dst, size_t num_threads);
 
 int main(int argc, char** argv) {
     // Turn off sync with stdio for performance reasons
     std::ios::sync_with_stdio(false);
 
-    if (argc != 3) {
+    if (argc != 4) {
         std::cerr << "Incorrect usage\n"
-                  << "\t" << argv[0] << " rows cols"
+                  << "\t" << argv[0] << " rows cols num_threads"
                   << std::endl;
         return 1;
     }
@@ -24,6 +24,7 @@ int main(int argc, char** argv) {
     // Get matrix size
     const size_t rows = strtoul(argv[1], nullptr, 10);
     const size_t cols = strtoul(argv[2], nullptr, 10);
+    const size_t num_threads = strtoul(argv[3], nullptr, 10);
     if (rows == 0 || cols == 0) {
         std::cerr << "Incorrect matrix size" << std::endl;
         return 2;
@@ -37,6 +38,9 @@ int main(int argc, char** argv) {
     double end_time;
 
     // Transpose block
-    const double elapsed_time = transpose_test(mat1, mat2);
-    std::cout << elapsed_time << std::endl;
+    const double elapsed_time = transpose_test(mat1, mat2, num_threads);
+
+    // Print data to csv
+    // num_threads, rows, cols, elapsed_time
+    std::cout << num_threads << ',' << rows << ',' << cols << ',' << elapsed_time << std::endl;
 }

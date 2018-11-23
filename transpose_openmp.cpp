@@ -80,7 +80,8 @@ void transpose_openmp(const Matrix<T>& src, Matrix<T>& dst) {
     #pragma omp taskwait
 }
 
-double transpose_test(const Matrix<char>& src, Matrix<char>& dst) {
+double transpose_test(const Matrix<char>& src, Matrix<char>& dst, size_t num_threads) {
+    omp_set_num_threads(num_threads);
     const double start_time = omp_get_wtime();
     transpose_openmp<char, 32, 32>(src, dst);
     const double end_time = omp_get_wtime();

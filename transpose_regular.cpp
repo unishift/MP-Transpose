@@ -57,7 +57,7 @@ void transpose_recursive(const Matrix<T>& src, Matrix<T>& dst) {
     _transpose_recursive<T, BLOCK_ROWS, BLOCK_COLS>(src, dst, 0, 0, src.rows(), src.cols());
 }
 
-double transpose_test(const Matrix<char>& src, Matrix<char>& dst) {
+double transpose_test(const Matrix<char>& src, Matrix<char>& dst, size_t num_threads) {
     const auto start_clock = clock();
     transpose_recursive<char, 16, 16>(src, dst);
     const auto end_clock = clock();
