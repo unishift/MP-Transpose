@@ -31,6 +31,8 @@ public:
         }
     }
 
+    Matrix(const Matrix&) = delete;
+
     ~Matrix() {
         delete [] ptr;
     }
