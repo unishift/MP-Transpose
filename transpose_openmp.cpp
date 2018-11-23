@@ -81,7 +81,7 @@ void transpose_openmp(const Matrix<T>& src, Matrix<T>& dst) {
 
 double transpose_test(const Matrix<char>& src, Matrix<char>& dst) {
     const double start_time = omp_get_wtime();
-    transpose_openmp<char>(src, dst);
+    transpose_openmp<char, 32, 32>(src, dst);
     const double end_time = omp_get_wtime();
 
     return end_time - start_time;
