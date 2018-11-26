@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
     std::ios::sync_with_stdio(false);
 
     if (argc != 4) {
-        std::cerr << "Incorrect usage\n"
+        std::cout << "Incorrect usage\n"
                   << "\t" << argv[0] << " rows cols num_threads"
                   << std::endl;
         return 1;
@@ -26,21 +26,18 @@ int main(int argc, char** argv) {
     const size_t cols = strtoul(argv[2], nullptr, 10);
     const size_t num_threads = strtoul(argv[3], nullptr, 10);
     if (rows == 0 || cols == 0) {
-        std::cerr << "Incorrect matrix size" << std::endl;
+        std::cout << "Incorrect matrix size" << std::endl;
         return 2;
     }
 
     // Init matrices
     Matrix<char> mat1(rows, cols);
-    Matrix<char> mat2(cols, rows); //NOLINT
-
-    double start_time;
-    double end_time;
+    Matrix<char> mat2(cols, rows);
 
     // Transpose block
     const double elapsed_time = transpose_test(mat1, mat2, num_threads);
 
     // Print data to csv
     // num_threads, rows, cols, elapsed_time
-    std::cout << num_threads << ',' << rows << ',' << cols << ',' << elapsed_time << std::endl;
+    std::cerr << num_threads << ',' << rows << ',' << cols << ',' << elapsed_time << std::endl;
 }
