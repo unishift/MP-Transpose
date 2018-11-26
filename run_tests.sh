@@ -11,7 +11,7 @@ do
     do
         for (( num_threads = 1; num_threads <= max_threads; num_threads *= 2 ))
         do
-            ${command} ${rows} ${cols} ${num_threads} >> ${output_file}
+            bsub -n ${num_threads} -W 1 -e ${output_file} ${command} ${rows} ${cols} ${num_threads}
         done
     done
 
@@ -20,7 +20,7 @@ do
     do
         for (( num_threads = 1; num_threads <= max_threads; num_threads *= 2 ))
         do
-            ${command} ${rows} ${cols} ${num_threads} >> ${output_file}
+            bsub -n ${num_threads} -W 1 -e ${output_file} ${command} ${rows} ${cols} ${num_threads}
         done
     done
 
@@ -29,7 +29,7 @@ do
     do
         for (( num_threads = 1; num_threads <= max_threads; num_threads *= 2 ))
         do
-            ${command} ${rows} ${cols} ${num_threads} >> ${output_file}
+            bsub -n ${num_threads} -W 1 -e ${output_file} ${command} ${rows} ${cols} ${num_threads}
         done
     done
 done
