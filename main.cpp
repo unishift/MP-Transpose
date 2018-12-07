@@ -3,11 +3,8 @@
 
 #include "Matrix.h"
 
-/// Performs transposition method from linked library on char matrix<br>
-/// Returns time with respect to multi-threading
-/// \param src - source matrix
-/// \param dst - destination matrix
-/// \return elapsed time in seconds
+// Performs transposition method from linked library on char matrix<br>
+// Returns time with respect to multi-threading
 double transpose_test(const Matrix<char>& src, Matrix<char>& dst, size_t num_threads);
 
 int main(int argc, char** argv) {

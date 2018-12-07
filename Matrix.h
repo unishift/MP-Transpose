@@ -1,8 +1,7 @@
 #include <cstddef>
 
-/// Class for matrix representation<br>
-/// It have immutable sizes for performance reasons
-/// \tparam T - any type numeric type
+// Class for matrix representation<br>
+// It have immutable sizes for performance reasons
 template <typename T>
 class Matrix {
     T* ptr;
@@ -17,9 +16,7 @@ public:
         return ptr[i * _cols + j];
     }
 
-    /// Initialize matrix with i-j values, where i is row and j is column
-    /// \param rows - any positive integer
-    /// \param cols - any positive integer
+    // Initialize matrix with i-j values, where i is row and j is column
     Matrix(size_t rows, size_t cols) :
         ptr(new T[rows * cols]),
         _rows(rows), _cols(cols) {
@@ -46,9 +43,8 @@ public:
     }
 
 
-    /// Perform matrix out-place transpose regular way
-    /// \param src - source matrix
-    /// \param dst - destination matrix
+    // Perform matrix out-place transpose regular way
+    // Used for correctness tests
     friend
     void transpose(const Matrix<T>& src, Matrix<T>& dst) {
         for (int j = 0; j < src.cols(); j++) {
