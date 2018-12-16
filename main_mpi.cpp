@@ -32,13 +32,19 @@ int main(int argc, char** argv) {
     const int num_proc = MPI::COMM_WORLD.Get_size();
     const int rank = MPI::COMM_WORLD.Get_rank();
 
-    // Divide matrix by block per every process
+    // Divide matrix evenly per every process
     size_t local_rows = rows;
     size_t local_cols = cols;
     if (rows > cols) {
         local_rows = rows / num_proc;
+        if (rank == num_proc - 1) {
+            local_rows = rows - local_rows * rank;
+        }
     } else {
         local_cols = cols / num_proc;
+        if (rank == num_proc - 1) {
+            local_cols = cols - local_cols * rank;
+        }
     }
 
     // Init matrices
