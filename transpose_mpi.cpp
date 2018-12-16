@@ -43,8 +43,10 @@ void transpose_mpi(const Matrix<T>& src, Matrix<T>& dst) {
 }
 
 double transpose_test(const Matrix<char>& src, Matrix<char>& dst, size_t num_threads) {
+    MPI::COMM_WORLD.Barrier();
     const double start_time = MPI_Wtime();
     transpose_mpi<char>(src, dst);
+    MPI::COMM_WORLD.Barrier();
     const double end_time = MPI_Wtime();
 
     return end_time - start_time;
